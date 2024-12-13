@@ -37,8 +37,8 @@ function compressImage(img, type) {
     let width = img.width;
     let height = img.height;
     
-    // 如果图片太大，等比例缩小
-    const maxSize = 1200;
+    // 增加最大尺寸限制到2000px
+    const maxSize = 2000;
     if (width > maxSize || height > maxSize) {
         if (width > height) {
             height = Math.round(height * maxSize / width);
@@ -49,15 +49,27 @@ function compressImage(img, type) {
         }
     }
 
+    // 使用更高质量的渲染
     canvas.width = width;
     canvas.height = height;
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
     ctx.drawImage(img, 0, 0, width, height);
 
-    // 获取用户设置的压缩质量
+    // 获取用户设置的压缩质量，默认值改为0.9
     const quality = document.getElementById('quality').value / 100;
 
     // 压缩图片
     canvas.toBlob(function(blob) {
+        // 如果压缩后比原图大，使用原图
+        if (blob.size > img.size) {
+            const compressedImg = document.getElementById('compressedImage');
+            compressedImg.src = img.src;
+            document.getElementById('compressedSize').textContent = 
+                `大小: ${(img.size / 1024 / 1024).toFixed(2)} MB (使用原图)`;
+            return;
+        }
+
         // 显示压缩后的图片
         const compressedImg = document.getElementById('compressedImage');
         compressedImg.src = URL.createObjectURL(blob);
@@ -89,3 +101,7 @@ document.getElementById('quality').addEventListener('input', function() {
         compressImage(img, 'image/jpeg');
     }
 });
+
+// 设置默认压缩质量为90%
+document.getElementById('quality').value = 90;
+document.getElementById('qualityValue').textContent = '90%';

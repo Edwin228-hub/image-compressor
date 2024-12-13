@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>简单图片压缩工具</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>简单图片压缩工具</h1>
+        <div class="upload-area">
+            <p class="upload-tip">点击下方按钮选择图片</p>
+            <label class="upload-btn" for="upload">选择图片</label>
+            <input type="file" id="upload" accept="image/png, image/jpeg">
+            <p class="upload-desc">支持 PNG、JPG 格式，大小不超过10MB</p>
+        </div>
+        <div class="compress-settings">
+            <label for="quality">压缩质量:</label>
+            <input type="range" id="quality" min="0" max="100" value="80">
+            <span id="qualityValue">80%</span>
+        </div>
+        <div class="preview">
+            <div class="image-container">
+                <h2>原始图片</h2>
+                <img id="originalImage" alt="原始图片预览">
+                <p id="originalSize"></p>
+            </div>
+            <div class="image-container">
+                <h2>压缩后的图片</h2>
+                <img id="compressedImage" alt="压缩图片预览">
+                <p id="compressedSize"></p>
+            </div>
+        </div>
+        <button class="download-btn" id="downloadBtn" disabled>下载压缩后的图片</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
